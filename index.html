@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Justin Zarzuela — SDET Portfolio</title>
+  <meta name="description" content="Justin Zarzuela — NJIT SDET student portfolio (Software & Data Engineering)." />
+  <meta name="author" content="Justin Zarzuela" />
+  <!-- Theme color for mobile browsers -->
+  <meta name="theme-color" content="#14021a" />
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Avoid flash-of-unstyled content for theme -->
+  <script>
+    (function(){
+      try {
+        var key = 'jz-theme';
+        var stored = localStorage.getItem(key);
+        if (stored) document.documentElement.setAttribute('data-theme', stored);
+      } catch(e){}
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- Skip link for keyboard users -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Header / Navigation -->
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a class="brand" href="#home" aria-label="Go to home">
+        <span class="logo" aria-hidden="true">JZ</span>
+        <span class="brand-text">Justin Zarzuela</span>
+      </a>
+
+      <nav class="primary-nav" role="navigation" aria-label="Primary navigation">
+        <ul class="nav-list" id="nav-list">
+          <li><a href="#home" data-target="home" class="nav-link">Home</a></li>
+          <li><a href="#about" data-target="about" class="nav-link">About</a></li>
+          <li><a href="#projects" data-target="projects" class="nav-link">Projects</a></li>
+          <li><a href="#skills" data-target="skills" class="nav-link">Skills</a></li>
+          <li><a href="#contact" data-target="contact" class="nav-link">Contact</a></li>
+        </ul>
+
+        <!-- Theme toggle (optional) -->
+        <button id="theme-toggle" class="btn btn-ghost" aria-pressed="false" aria-label="Toggle theme">
+          <span class="toggle-icon" aria-hidden="true">🌙</span>
+          <span class="toggle-text">Dark</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main: full-page sections (100vh each) -->
+  <main id="main" class="main" role="main">
+
+    <!-- Home (section 1) -->
+    <section id="home" class="section reveal section-full active" aria-labelledby="home-title" data-section="home" tabindex="-1">
+      <div class="container section-inner">
+        <div class="hero-content">
+          <h1 id="home-title" class="hero-title animate-slide-in">
+            Hi, I’m <span class="accent">Justin</span> — NJIT SDET student specializing in Software & Data Engineering.
+          </h1>
+          <p class="hero-lead animate-fade-in">
+            I’m passionate about learning how technology works and exploring new ways to apply programming concepts.
+            Every project I take on is a chance to practice, experiment, and grow as a developer.
+          </p>
+
+          <div class="hero-actions animate-fade-in delay-2">
+            <a class="btn btn-primary" href="#projects">View Projects</a>
+            <a class="btn btn-ghost" href="#" aria-label="Resume not available yet">Download Resume (Coming Soon)</a>
+          </div>
+
+          <p class="meta small animate-fade-in delay-3">
+            GitHub: <a href="https://github.com/jaz35-hue" target="_blank" rel="noopener">jaz35-hue</a> •
+            LinkedIn: <a href="https://www.linkedin.com/in/justin-zarzuela-aa6572388" target="_blank" rel="noopener">Justin Zarzuela</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Me (section 2) -->
+    <section id="about" class="section reveal section-full" aria-labelledby="about-title" data-section="about" tabindex="-1">
+      <div class="container section-inner about-grid">
+        <div class="about-text">
+          <h2 id="about-title" class="animate-slide-in">About Me</h2>
+          <p class="animate-fade-in delay-1">
+            My interest in technology started when I was young, and over time it grew into a drive to understand how
+            software can solve problems. As a first-year student at NJIT, I’m focused on learning the fundamentals of
+            software and data engineering while exploring different areas of programming.
+          </p>
+
+          <p class="animate-fade-in delay-2">
+            I see each project as a learning opportunity — whether it’s working with APIs, handling data, or writing
+            cleaner code. My goal right now is not just to build, but to keep learning and improving with every step.
+          </p>
+
+          <div class="about-actions animate-fade-in delay-3">
+            <a class="btn btn-primary" href="#contact">Contact Me</a>
+            <a class="btn btn-ghost" href="https://github.com/jaz35-hue" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn btn-ghost" href="https://www.linkedin.com/in/justin-zarzuela-aa6572388" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+
+        <aside class="about-aside animate-slide-in delay-2" aria-labelledby="skills-aside">
+          <h3 id="skills-aside">Quick Facts</h3>
+          <ul class="fact-list">
+            <li><strong>Major:</strong> Software & Data Engineering Technology (SDET), NJIT</li>
+            <li><strong>Languages:</strong> Python, JavaScript, HTML, CSS</li>
+            <li><strong>Databases:</strong> SQLite</li>
+            <li><strong>Other:</strong> Prompt engineering, bilingual (English & Spanish)</li>
+            <li><strong>Email:</strong> <a href="mailto:jaz35@njit.edu">jaz35@njit.edu</a></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Projects (section 3) -->
+    <section id="projects" class="section reveal section-full" aria-labelledby="projects-title" data-section="projects" tabindex="-1">
+      <div class="container section-inner">
+        <h2 id="projects-title" class="animate-slide-in">Projects</h2>
+        <p class="section-tagline animate-fade-in delay-1">Selected projects and what I learned from them.</p>
+
+        <div class="project-carousel-container">
+          <!-- Navigation Buttons -->
+          <button class="carousel-btn prev" aria-label="Previous project">
+            <span aria-hidden="true">←</span>
+          </button>
+          <button class="carousel-btn next" aria-label="Next project">
+            <span aria-hidden="true">→</span>
+          </button>
+
+          <!-- Project cards in horizontal scroll -->
+          <div class="project-carousel">
+            <!-- Project 1 -->
+            <article class="project-card animate-fade-in" aria-labelledby="p1-title">
+              <h3 id="p1-title">Python Basics Projects</h3>
+              <p class="project-meta">
+                Focus: Practicing core programming concepts.
+              </p>
+              <ul>
+                <li>Writing a calculator that handles multiple operations</li>
+                <li>Using dictionaries to simulate a shopping cart</li>
+                <li>Handling user input in a Rock-Paper-Scissors game</li>
+                <li>Generating sequences like Fibonacci with loops and conditionals</li>
+              </ul>
+              <p><a href="https://github.com/jaz35-hue/python-basics-projects" target="_blank" rel="noopener">GitHub → Python Basics Projects</a></p>
+            </article>
+
+            <!-- Project 2 -->
+            <article class="project-card animate-fade-in" aria-labelledby="p2-title">
+              <h3 id="p2-title">Data Manipulation Projects</h3>
+              <p class="project-meta">
+                Focus: APIs, databases, and file storage.
+              </p>
+              <ul>
+                <li>Fetching and parsing JSON data from the SpaceX API</li>
+                <li>Storing and retrieving news headlines in SQLite without duplicates</li>
+                <li>Using file I/O to save random jokes from an API into a text file</li>
+              </ul>
+              <p><a href="https://github.com/jaz35-hue/data-manipulation-projects" target="_blank" rel="noopener">GitHub → Data Manipulation</a></p>
+            </article>
+
+            <!-- Project 3 -->
+            <article class="project-card animate-fade-in" aria-labelledby="p3-title">
+              <h3 id="p3-title">Currency Exchange Tracker</h3>
+              <p class="project-meta">
+                Focus: API + DB integration for reliable data storage and retrieval.
+              </p>
+              <ul>
+                <li>Connecting to a currency exchange API</li>
+                <li>Storing structured data in SQLite</li>
+                <li>Handling errors and ensuring reliable data retrieval</li>
+              </ul>
+              <p><a href="https://github.com/jaz35-hue/currency-exchange-tracker" target="_blank" rel="noopener">GitHub → Currency Exchange Tracker</a></p>
+            </article>
+          </div>
+
+          <!-- Project Indicators -->
+          <div class="carousel-indicators">
+            <button class="indicator active" aria-label="Go to project 1"></button>
+            <button class="indicator" aria-label="Go to project 2"></button>
+            <button class="indicator" aria-label="Go to project 3"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills (section 4) -->
+    <section id="skills" class="section reveal section-full" aria-labelledby="skills-title" data-section="skills" tabindex="-1">
+      <div class="container section-inner">
+        <h2 id="skills-title" class="animate-slide-in">Skills</h2>
+
+        <div class="skills-grid animate-fade-in delay-2">
+          <div class="skill">
+            <h3>Languages</h3>
+            <p>Python, JavaScript, HTML, CSS</p>
+          </div>
+          <div class="skill">
+            <h3>Databases</h3>
+            <p>SQLite</p>
+          </div>
+          <div class="skill">
+            <h3>Other</h3>
+            <p>Prompt Engineering, APIs & JSON</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact (section 5) -->
+    <section id="contact" class="section reveal section-full" aria-labelledby="contact-title" data-section="contact" tabindex="-1">
+      <div class="container section-inner">
+        <h2 id="contact-title" class="animate-slide-in">Contact</h2>
+        <p class="section-tagline animate-fade-in delay-1">I'd love to connect — reach out via email or GitHub.</p>
+
+        <form id="contact-form" class="contact-form animate-fade-in delay-2" novalidate aria-describedby="form-status">
+          <div class="form-row">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required />
+            <span id="name-error" class="field-error" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="your.email@example.com" required />
+            <span id="email-error" class="field-error" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="How can I help?" required></textarea>
+            <span id="message-error" class="field-error" aria-live="polite"></span>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Send Message</button>
+            <p id="form-status" class="form-status" aria-live="polite"></p>
+          </div>
+        </form>
+
+        <div class="contact-links animate-fade-in delay-3">
+          <p>Email: <a href="mailto:jaz35@njit.edu">jaz35@njit.edu</a></p>
+          <p>GitHub: <a href="https://github.com/jaz35-hue" target="_blank" rel="noopener">jaz35-hue</a></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> Justin Zarzuela. All rights reserved.</p>
+      <nav aria-label="Footer links">
+        <a class="footer-link" href="#home">Back to top</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js" defer></script>
+</body>
+</html>
