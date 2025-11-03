@@ -257,6 +257,8 @@ body{
   position: relative;
   z-index: 1;
   transition: opacity .45s ease, transform .5s ease;
+  /* Ensure scrollIntoView doesn't hide the section under the fixed header */
+  scroll-margin-top: 72px; /* header height (60px) + small gap */
 }
 
 /* Visual card around section content to create an 'outline' and professional look */
@@ -323,17 +325,33 @@ body{
 }
 
 .project-card {
-  flex: 0 0 90%;
-  max-width: 600px;
-  scroll-snap-align: center;
+  /* Force each project to occupy the full carousel viewport so only one is visible at a time */
+  flex: 0 0 100%;
+  max-width: 100%;
+  width: 100%;
+  scroll-snap-align: start;
   padding: 1.5rem;
   border-radius: 12px;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
   border: 1px solid var(--border);
   box-shadow: 0 8px 28px rgba(0,0,0,0.5);
-  transition: all var(--transition-med) var(--smooth);
+  /* Add a focused transition for transform/opacity so slides animate smoothly when changing */
+  transition: transform .36s var(--smooth), opacity .28s var(--smooth), box-shadow .36s var(--smooth);
+  transform-origin: center;
   position: relative;
   overflow: hidden;
+}
+
+/* Visual transitions: inactive slides slightly scaled down and dimmed; active slide pops forward */
+.project-card:not(.active-slide) {
+  transform: scale(0.985) translateY(6px);
+  opacity: 0.92;
+}
+
+.project-card.active-slide {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  box-shadow: 0 18px 48px rgba(157,78,221,0.12), 0 0 40px var(--accent-2-glow);
 }
 
 .project-card::before {

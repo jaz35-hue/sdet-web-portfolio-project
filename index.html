@@ -126,17 +126,17 @@
 
         <div class="project-carousel-container">
           <!-- Navigation Buttons -->
-          <button class="carousel-btn prev" aria-label="Previous project">
+          <button type="button" class="carousel-btn prev" aria-label="Previous project">
             <span aria-hidden="true">←</span>
           </button>
-          <button class="carousel-btn next" aria-label="Next project">
+          <button type="button" class="carousel-btn next" aria-label="Next project">
             <span aria-hidden="true">→</span>
           </button>
 
           <!-- Project cards in horizontal scroll -->
-          <div class="project-carousel">
+          <div id="project-carousel" class="project-carousel" role="region" aria-label="Projects carousel">
             <!-- Project 1 -->
-            <article class="project-card animate-fade-in" aria-labelledby="p1-title">
+            <article tabindex="-1" class="project-card animate-fade-in" aria-labelledby="p1-title">
               <h3 id="p1-title">Python Basics Projects</h3>
               <p class="project-meta">
                 Focus: Practicing core programming concepts.
@@ -151,7 +151,7 @@
             </article>
 
             <!-- Project 2 -->
-            <article class="project-card animate-fade-in" aria-labelledby="p2-title">
+            <article tabindex="-1" class="project-card animate-fade-in" aria-labelledby="p2-title">
               <h3 id="p2-title">Data Manipulation Projects</h3>
               <p class="project-meta">
                 Focus: APIs, databases, and file storage.
@@ -165,7 +165,7 @@
             </article>
 
             <!-- Project 3 -->
-            <article class="project-card animate-fade-in" aria-labelledby="p3-title">
+            <article tabindex="-1" class="project-card animate-fade-in" aria-labelledby="p3-title">
               <h3 id="p3-title">Currency Exchange Tracker</h3>
               <p class="project-meta">
                 Focus: API + DB integration for reliable data storage and retrieval.
@@ -180,10 +180,10 @@
           </div>
 
           <!-- Project Indicators -->
-          <div class="carousel-indicators">
-            <button class="indicator active" aria-label="Go to project 1"></button>
-            <button class="indicator" aria-label="Go to project 2"></button>
-            <button class="indicator" aria-label="Go to project 3"></button>
+          <div class="carousel-indicators" role="tablist" aria-label="Project indicators">
+            <button type="button" class="indicator active" aria-label="Go to project 1" aria-controls="project-carousel"></button>
+            <button type="button" class="indicator" aria-label="Go to project 2" aria-controls="project-carousel"></button>
+            <button type="button" class="indicator" aria-label="Go to project 3" aria-controls="project-carousel"></button>
           </div>
         </div>
       </div>

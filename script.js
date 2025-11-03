@@ -68,8 +68,11 @@ function navigateToSection(id){
   if (!section) return;
   // Use scrollIntoView so the user lands at the top of the section; IntersectionObserver will mark it active
   section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  // focus for accessibility
-  section.focus({ preventScroll: true });
+  // focus for accessibility (best-effort)
+  try { section.focus({ preventScroll: true }); } catch (e) {}
+  // Immediately set active state so the UI (and screen readers) reflect the target section
+  // even if IntersectionObserver hasn't fired yet during the smooth scroll.
+  try { setActiveSection(id); } catch (e) {}
 }
 
 /* Move to the next/previous section based on current active */
@@ -192,15 +195,18 @@ function initForm(){
   }
 
   form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    let valid = true;
-    if (!name.value.trim()) { setError(name, 'Please enter your name.'); valid = false; } else setError(name, '');
-    if (!email.value.trim()) { setError(email, 'Please enter your email.'); valid = false; } else if (!isEmailValid(email.value.trim())) { setError(email, 'Please enter a valid email address.'); valid = false; } else setError(email, '');
-    if (!message.value.trim()) { setError(message, 'Please enter a message.'); valid = false; } else setError(message, '');
-    if (!valid) {
-      if (status) status.textContent = 'Please fix the errors above.';
-      return;
-    }
+      // Use element bounding rects for a more robust center-based calculation
+      const carouselRect = carousel.getBoundingClientRect();
+      const center = carouselRect.left + carouselRect.width / 2;
+      let closest = 0;
+      let minDist = Infinity;
+      cards.forEach((card, i) => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const dist = Math.abs(cardCenter - center);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      return closest;
     // Simulate submit
     if (status) status.textContent = 'Thanks — your message was sent (simulation).';
     form.reset();
@@ -213,6 +219,11 @@ function initForm(){
 }
 
 /* ----- Small utility: update year in footer ----- */
+      // Ensure the card is focusable and move keyboard focus there for accessibility
+      try {
+        card.tabIndex = -1;
+        card.focus({ preventScroll: true });
+      } catch (e) { /* focus best-effort */ }
 function setYear(){
   const el = document.getElementById('year');
   if (el) el.textContent = new Date().getFullYear();
@@ -221,54 +232,80 @@ function setYear(){
 /* ----- Project Carousel ----- */
 function initProjectCarousel() {
   const carousel = document.querySelector('.project-carousel');
-  const cards = carousel.querySelectorAll('.project-card');
+  if (!carousel) return;
+  const cards = Array.from(carousel.querySelectorAll('.project-card'));
   const prevBtn = document.querySelector('.carousel-btn.prev');
   const nextBtn = document.querySelector('.carousel-btn.next');
-  const indicators = document.querySelectorAll('.indicator');
+  const indicators = Array.from(document.querySelectorAll('.indicator'));
   
   let currentIndex = 0;
 
-  function updateCarousel(index) {
+  function updateIndicators(index) {
+    indicators.forEach((ind, i) => ind.classList.toggle('active', i === index));
+  }
+
+  function scrollToIndex(index) {
+    index = Math.max(0, Math.min(cards.length - 1, index));
     const card = cards[index];
     if (!card) return;
-    
-    // Scroll to the card
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    
-    // Update indicators
-    indicators.forEach((ind, i) => ind.classList.toggle('active', i === index));
-    
+    // Use start so the card aligns to the left edge of the carousel viewport (full-width card)
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     currentIndex = index;
+    updateIndicators(currentIndex);
+    // Toggle active-slide class so CSS transitions (fade/scale) run
+    cards.forEach((c, i) => c.classList.toggle('active-slide', i === currentIndex));
   }
 
   // Button click handlers
-  prevBtn?.addEventListener('click', () => {
-    updateCarousel(Math.max(0, currentIndex - 1));
-  });
-
-  nextBtn?.addEventListener('click', () => {
-    updateCarousel(Math.min(cards.length - 1, currentIndex + 1));
-  });
+  prevBtn?.addEventListener('click', () => scrollToIndex(currentIndex - 1));
+  nextBtn?.addEventListener('click', () => scrollToIndex(currentIndex + 1));
 
   // Indicator click handlers
   indicators.forEach((indicator, index) => {
-    indicator.addEventListener('click', () => updateCarousel(index));
+    indicator.addEventListener('click', () => scrollToIndex(index));
   });
 
-  // Mouse wheel horizontal scrolling
-  carousel?.addEventListener('wheel', (e) => {
-    if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+  // Improve wheel behavior: vertical wheel scrolls horizontally inside carousel
+  carousel.addEventListener('wheel', (e) => {
+    // Only intercept mostly-vertical wheels to allow normal horizontal wheels too
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
       e.preventDefault();
       carousel.scrollLeft += e.deltaY;
     }
+  }, { passive: false });
+
+  // Determine which card is currently most visible (by center point) and update indicators
+  function indexFromScroll() {
+    const center = carousel.scrollLeft + carousel.clientWidth / 2;
+    let closest = 0;
+    let minDist = Infinity;
+    cards.forEach((card, i) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const dist = Math.abs(cardCenter - center);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    return closest;
+  }
+
+  let scrollTimeout = null;
+  carousel.addEventListener('scroll', () => {
+    // Throttle: update indicator after user stops scrolling for 80ms to avoid flicker
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const idx = indexFromScroll();
+      if (idx !== currentIndex) {
+        currentIndex = idx;
+        updateIndicators(currentIndex);
+        // Apply visual state to the computed active card
+        cards.forEach((c, i) => c.classList.toggle('active-slide', i === currentIndex));
+      }
+    }, 80);
   });
 
-  // Update indicators based on scroll position
-  carousel?.addEventListener('scroll', () => {
-    const cardWidth = cards[0].offsetWidth + 24; // width + gap
-    const index = Math.round(carousel.scrollLeft / cardWidth);
-    indicators.forEach((ind, i) => ind.classList.toggle('active', i === index));
-  });
+  // Ensure initial state
+  updateIndicators(currentIndex);
+  // Mark the initial active slide so it starts in the 'active' visual state
+  cards.forEach((c, i) => c.classList.toggle('active-slide', i === currentIndex));
 }
 
 /* ----- Init everything on DOM ready ----- */
