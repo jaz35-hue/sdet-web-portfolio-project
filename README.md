@@ -15,6 +15,10 @@ The site is scroll-based, so each section shows up one at a time with smooth tra
 2. [Data Manipulation Projects](https://github.com/jaz35-hue/data-manipulation-projects)  
 3. [Currency Exchange Tracker](https://github.com/jaz35-hue/currency-exchange-tracker)  
 
+## How to Run Locally
+1. Clone the repository
+2. Open the Project by simply double clicking index.html to open it in your browser
+
 ## Contact
 - 📧 Email: [jaz35@njit.edu](mailto:jaz35@njit.edu)  
 - 🔗 GitHub: [jaz35-hue](https://github.com/jaz35-hue)  
