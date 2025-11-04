@@ -102,8 +102,33 @@ body{
   gap:1rem;
   width:100%;
   padding:0.6rem 1rem;
+  position: relative;
 }
 .brand{ display:flex; align-items:center; gap:.6rem; text-decoration:none; color:inherit; }
+
+/* Mobile menu button - always visible on mobile */
+.menu-toggle {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;  /* Hidden by default, shown in mobile */
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin: 4px 0;
+  background: var(--text);
+  transition: transform 0.3s var(--smooth), opacity 0.3s var(--smooth);
+}
+
 .logo{
   display:inline-grid; place-items:center;
   width:40px; height:40px;
@@ -624,16 +649,30 @@ input::placeholder, textarea::placeholder{ color: color-mix(in srgb,var(--muted)
 /* Mobile styles (default) */
 @media (max-width: 879px) {
   .menu-toggle {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .primary-nav {
     position: fixed;
     inset: 60px 0 0 0;
     background: var(--surface);
-    transform: translateY(-100%);
-    transition: transform 0.3s var(--smooth);
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s var(--smooth);
     z-index: 998;
+  }
+
+  body.menu-open .primary-nav {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /* Hide theme toggle on mobile when menu is closed */
+  #theme-toggle {
+    margin-right: 48px; /* Space for menu button */
   }
 
   .nav-list {
@@ -648,21 +687,34 @@ input::placeholder, textarea::placeholder{ color: color-mix(in srgb,var(--muted)
     text-align: center;
   }
 
-  /* Mobile menu open state */
-  body.menu-open .primary-nav {
-    transform: translateY(0);
-  }
-
+  /* Mobile menu open state - hamburger to X animation */
   body.menu-open .menu-toggle span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 6px);
+    transform: rotate(45deg) translate(5px, 5px);
   }
 
   body.menu-open .menu-toggle span:nth-child(2) {
     opacity: 0;
+    transform: translateX(-10px);
   }
 
   body.menu-open .menu-toggle span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -6px);
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  /* Mobile nav styles */
+  .nav-list {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+    background: var(--surface);
+  }
+
+  .nav-link {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.2rem;
+    width: 100%;
+    text-align: center;
   }
 
   /* Mobile layout adjustments */

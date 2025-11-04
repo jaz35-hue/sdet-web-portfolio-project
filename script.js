@@ -348,22 +348,47 @@ function initMobileMenu() {
   function closeMenu() {
     document.body.classList.remove('menu-open');
     menuBtn.setAttribute('aria-expanded', 'false');
+    nav.style.visibility = 'hidden';
+  }
+
+  function openMenu() {
+    document.body.classList.add('menu-open');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    nav.style.visibility = 'visible';
   }
 
   menuBtn.addEventListener('click', () => {
-    const isOpen = document.body.classList.toggle('menu-open');
-    menuBtn.setAttribute('aria-expanded', String(isOpen));
+    const isOpen = document.body.classList.contains('menu-open');
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
+  // Close menu when clicking a link
   nav.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', closeMenu);
   });
 
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (document.body.classList.contains('menu-open') &&
+        !nav.contains(e.target) &&
+        !menuBtn.contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  // Close menu on escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
       closeMenu();
     }
   });
+
+  // Set initial state
+  menuBtn.setAttribute('aria-expanded', 'false');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
