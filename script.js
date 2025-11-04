@@ -121,11 +121,41 @@ function initSectionObserver(){
       }
     });
   }, {
-    threshold: 0.5,
-    rootMargin: '-10% 0px -10% 0px'
+    // Use multiple thresholds and a slightly larger rootMargin so the observer
+    // fires earlier and more consistently across browsers (Edge/Chromium variations)
+    threshold: [0.25, 0.5],
+    rootMargin: '-20% 0px -20% 0px'
   });
 
   sections.forEach(s => observer.observe(s));
+}
+
+/* ----- Scroll watcher to ensure a section is active when scrolling stops ----- */
+function chooseClosestSection() {
+  const sections = getSections();
+  if (sections.length === 0) return null;
+  const viewportCenter = window.innerHeight / 2;
+  let closest = sections[0];
+  let minDist = Infinity;
+  sections.forEach(s => {
+    const rect = s.getBoundingClientRect();
+    const center = rect.top + rect.height / 2;
+    const dist = Math.abs(center - viewportCenter);
+    if (dist < minDist) { minDist = dist; closest = s; }
+  });
+  return closest;
+}
+
+function initScrollWatcher() {
+  let scrollStopTimeout = null;
+  window.addEventListener('scroll', () => {
+    if (scrollStopTimeout) clearTimeout(scrollStopTimeout);
+    // After user stops scrolling for 120ms, pick the closest section and activate it
+    scrollStopTimeout = setTimeout(() => {
+      const sec = chooseClosestSection();
+      if (sec) setActiveSection(sec.id);
+    }, 120);
+  }, { passive: true });
 }
 
 /* Set one section as active (only it will be visible / interactive) */
@@ -316,6 +346,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initForm();
   setYear();
   initProjectCarousel(); // Initialize the project carousel
+
+  // Start the scroll watcher (ensures a nearest section is activated after scrolling stops)
+  if (typeof initScrollWatcher === 'function') initScrollWatcher();
 
   // Theme toggle hookup
   const themeBtn = document.getElementById('theme-toggle');
