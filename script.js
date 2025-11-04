@@ -339,6 +339,33 @@ function initProjectCarousel() {
 }
 
 /* ----- Init everything on DOM ready ----- */
+/* ----- Mobile menu handling ----- */
+function initMobileMenu() {
+  const menuBtn = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('.primary-nav');
+  if (!menuBtn || !nav) return;
+
+  function closeMenu() {
+    document.body.classList.remove('menu-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  menuBtn.addEventListener('click', () => {
+    const isOpen = document.body.classList.toggle('menu-open');
+    menuBtn.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  nav.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+      closeMenu();
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   Theme.init();
   initNavigation();
@@ -346,6 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initForm();
   setYear();
   initProjectCarousel(); // Initialize the project carousel
+  initMobileMenu(); // Initialize mobile menu
 
   // Start the scroll watcher (ensures a nearest section is activated after scrolling stops)
   if (typeof initScrollWatcher === 'function') initScrollWatcher();
