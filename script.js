@@ -348,13 +348,11 @@ function initMobileMenu() {
   function closeMenu() {
     document.body.classList.remove('menu-open');
     menuBtn.setAttribute('aria-expanded', 'false');
-    nav.style.visibility = 'hidden';
   }
 
   function openMenu() {
     document.body.classList.add('menu-open');
     menuBtn.setAttribute('aria-expanded', 'true');
-    nav.style.visibility = 'visible';
   }
 
   menuBtn.addEventListener('click', () => {
